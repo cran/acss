@@ -1,0 +1,8 @@
+46f665f9dd6067736a33f575c8038eda *DESCRIPTION
+9b2df50c5143a1e38ace3fcfe3e7158a *NAMESPACE
+aa50cc8494a5152afdc4c44114c8be82 *R/acss.R
+bb1e30a68ed205d1fcfb8173ac443aaf *R/helper.R
+07d2141ad6b5745b26f0669222225029 *R/standard_complexity.R
+8c996faab70d09956c1f557cc5fc1183 *man/acss.Rd
+f01fb681d22b40e0bf5c761b6d868041 *man/entropy.Rd
+4baf19632f7b6ef03c15fcae6c7989fb *man/normalize_string.Rd
