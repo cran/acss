@@ -1,26 +1,33 @@
 \name{acss}
 \alias{acss}
+\alias{likelihood_d}
+\alias{likelihood_ratio}
 \alias{local_complexity}
 \alias{prob_random}
 \title{ACSS complexity}
 \usage{
-acss(string, n)
+acss(string, alphabet = 9)
 
-prob_random(string, n = 9, prior= 0.5)
+local_complexity(string, alphabet = 9, span = 5)
 
-local_complexity(string, span = 5, n = 9)
+likelihood_d(string, alphabet = 9)
+
+likelihood_ratio(string, alphabet = 9)
+
+prob_random(string, alphabet = 9, prior= 0.5)
 }
 \arguments{
   \item{string}{\code{character} vector containing the to
   be analyzed strings (can contain multiple strings).}
 
-  \item{n}{\code{numeric}, the number of possible symbols
-  (not necessarily actually appearing in str). Must be one
-  of \code{c(2, 4, 5, 6, 9)} (can also be \code{NULL} or
-  contain multiple values for \code{acss}). Default is 9.}
+  \item{alphabet}{\code{numeric}, the number of possible
+  symbols (not necessarily actually appearing in str). Must
+  be one of \code{c(2, 4, 5, 6, 9)} (can also be
+  \code{NULL} or contain multiple values for
+  \code{acss()}). Default is 9.}
 
   \item{prior}{\code{numeric}, the prior probability that
-  the underlying process is randomness.}
+  the underlying process is random.}
 
   \item{span}{size of substrings to be created from
   \code{string}.}
@@ -31,14 +38,19 @@ correspond to the strings entered and the columns to the
 algorithmic complexity K and the algorithmic probability D
 of the string (see
 \url{http://complexitycalculator.com/methodology.html}).}
-\item{"prob_random"}{A named vector with the probabilities
-that each string was produced by a random process (and not
-a Turing Machine) given the provided prior for being
-produced by a random process (default is 0.5).}
 \item{"local_complexity"}{A list with elements
 corresponding to the strings. Each list containes a named
 vector of algorithmic complexities (K) of all substrings in
-each string with length span.} }
+each string with length span.} \item{"likelihood_d"}{A
+named vector with the likelihoods for \code{string} given a
+detreministic process.} \item{"likelihood_ratio"}{A named
+vector with the likelihood ratios (or Bayes factors) for
+\code{string} given a random rather than detreministic
+process.} \item{"prob_random"}{A named vector with the
+posterior probabilities that for a random process given the
+strings and the provided prior for being produced by a
+random process (default is 0.5, which correspond to a prior
+of 1 - 0.5 = 0.5 for a detereministic process).} }
 }
 \description{
 Functions to conveniently compute algorithmic complexity
@@ -80,10 +92,10 @@ acss(c("HEHHEE", "GHHGGHGHH", "HSHSHHSHSS"))
 ## GHHGGHGHH  33.50168 8.222205e-11
 ## HSHSHHSHSS 35.15241 2.618613e-11
 
-acss(c("HEHHEE", "GHHGGHGHH", "HSHSHHSHSS"))$K.9
+acss(c("HEHHEE", "GHHGGHGHH", "HSHSHHSHSS"))[,"K.9"]
 ## [1] 23.38852 33.50168 35.15241
 
-acss(c("HEHHEE", "GHHGGHGHH", "HSHSHHSHSS"), n = 2)
+acss(c("HEHHEE", "GHHGGHGHH", "HSHSHHSHSS"), alphabet = 2)
 ##                 K.2          D.2
 ## HEHHEE     14.96921 3.117581e-05
 ## GHHGGHGHH  25.60208 1.963387e-08
@@ -104,16 +116,20 @@ acss(c("HEHHEE", "GHHGGHGHUE", "HSHSHHSHSS"), NULL)
 ## HSHSHHSHSS 2.618613e-11
 
 \dontrun{
-prob_random(c("HEHHEE", "GHHGGHGHUE", "HSHSHHSHSS"))
-##     HEHHEE GHHGGHGHUE HSHSHHSHSS 
-## 0.31223451 0.09675417 0.01692974 
+likelihood_d(c("HTHTHTHT", "HTHHTHTT"), alphabet = 2)
+##    HTHTHTHT    HTHHTHTT 
+## 0.010366951 0.003102718 
 
-prob_random(c("HEHHEE", "GHHGGHGHUE", "HSHSHHSHSS"), n = 5)
-##     HEHHEE GHHGGHGHUE HSHSHHSHSS 
-## 0.39406436 0.30998532 0.07441426 
+likelihood_ratio(c("HTHTHTHT", "HTHHTHTT"), alphabet = 2)
+##  HTHTHTHT  HTHHTHTT 
+## 0.3767983 1.2589769 
+
+prob_random(c("HTHTHTHT", "HTHHTHTT"), alphabet = 2)
+##  HTHTHTHT  HTHHTHTT 
+## 0.2736772 0.5573217
 }
 
-local_complexity(c("01011010111" ,"GHHGGHGHUE"), span=5, n = 5)
+local_complexity(c("01011010111" ,"GHHGGHGHUE"), alphabet = 5, span=5)
 ## $`01011010111`
 ##    01011    10110    01101    11010    10101    01011    10111 
 ## 16.22469 16.24766 16.24766 16.22469 16.24322 16.22469 15.93927 
