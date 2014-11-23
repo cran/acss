@@ -1,4 +1,4 @@
-context("Replicating results from Psych Methods Manuscript")
+context("Replicating results from Behavior Research Manuscript")
 
 test_that("Experiment 1", {
   # load data

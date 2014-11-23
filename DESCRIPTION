@@ -1,15 +1,15 @@
 Package: acss
 Type: Package
 Title: Algorithmic Complexity for Short Strings
-Version: 0.2-4
-Date: 2014-05-26
+Version: 0.2-5
+Date: 2014-11-23
 Authors@R: c( person("Nicolas", "Gauvrit", role = "aut"), person("Henrik",
-    "Singmann", email = "singmann@gmail.com", role = c("aut", "cre")),
+    "Singmann", email = "singmann+acss@gmail.com", role = c("aut", "cre")),
     person("Fernando", "Soler Toscano", role = "ctb"), person("Hector",
     "Zenil", role = "ctb") )
 Imports: zoo
 Depends: R (>= 2.15.0), acss.data
-Suggests: effects
+Suggests: effects, lattice
 Description: Main functionality is to provide the algorithmic complexity for
     short strings, an approximation of the Kolmogorov Complexity of a short
     string using the coding theorem method (see ?acss). The database containing
@@ -20,12 +20,12 @@ Description: Main functionality is to provide the algorithmic complexity for
     also provided: entropy and change complexity.
 URL: http://complexitycalculator.com/methodology.html
 License: GPL (>= 2)
-Packaged: 2014-05-30 18:09:25 UTC; singmann
+Packaged: 2014-11-24 19:52:41 UTC; Henrik
 Author: Nicolas Gauvrit [aut],
   Henrik Singmann [aut, cre],
   Fernando Soler Toscano [ctb],
   Hector Zenil [ctb]
-Maintainer: Henrik Singmann <singmann@gmail.com>
+Maintainer: Henrik Singmann <singmann+acss@gmail.com>
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-06-01 08:19:31
+Date/Publication: 2014-11-25 08:45:18
