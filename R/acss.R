@@ -19,7 +19,7 @@
 #' 
 #' @return
 #' \describe{
-#'   \item{"acss"}{A matrix in which the rows correspond to the strings entered and the columns to the algorithmic complexity K and the algorithmic probability D of the string (see \url{http://complexitycalculator.com/methodology.html}).}
+#'   \item{"acss"}{A matrix in which the rows correspond to the strings entered and the columns to the algorithmic complexity K and the algorithmic probability D of the string (see \url{https://complexity-calculator.com/methodology.html}).}
 #'   \item{"local_complexity"}{A list with elements corresponding to the strings. Each list containes a named vector of algorithmic complexities (K) of all substrings in each string with length span.}
 #'   \item{"likelihood_d"}{A named vector with the likelihoods for \code{string} given a detreministic process.}
 #'   \item{"likelihood_ratio"}{A named vector with the likelihood ratios (or Bayes factors) for \code{string} given a random rather than detreministic process.}
@@ -32,7 +32,7 @@
 #' 
 #' This package accesses a database containing data on 4.5 million strings from length 1 to 12 simulated on TMs with 2, 4, 5, 6, and 9 symbols. 
 #' 
-#' For a more detailed discussion see Gauvrit, Singmann, Soler-Toscano, and Zenil (2014), \url{http://complexitycalculator.com/methodology.html}, or references below.
+#' For a more detailed discussion see Gauvrit, Singmann, Soler-Toscano, and Zenil (2014), \url{https://complexity-calculator.com/methodology.html}, or references below.
 #' 
 #' @references Delahaye, J.-P., & Zenil, H. (2012). Numerical evaluation of algorithmic complexity for short strings: A glance into the innermost structure of randomness. \emph{Applied Mathematics and Computation}, 219(1), 63-77. doi:10.1016/j.amc.2011.10.006 
 #' 
@@ -61,23 +61,24 @@ acss <- function(string, alphabet = 9) { #, return = "matrix") {
 #  return <- match.arg(return, c("matrix", "data.frame"))
   names <- string
   string <- normalize_string(string)
-  if (is.null(alphabet)) tmp <- acss_data[string,]  
+  if (is.null(alphabet)) tmp <- acss.data::acss_data[string,]  
   else {
     alphabet <- as.numeric(alphabet)
     if (any(!(alphabet %in% c(2, 4, 5, 6, 9)))) stop("alphabet must be in c(2, 4, 5, 6, 9)")
-    tmp <- acss_data[string, paste("K", alphabet , sep = "."), drop = FALSE]
+    tmp <- acss.data::acss_data[string, paste("K", alphabet , sep = "."), drop = FALSE]
   }
   D <- apply(tmp, c(1,2), function(x) 2^(-x))
   colnames(D) <- paste0("D.", substr(colnames(D), 3, 3))  
-#  if (return == "matrix") {
-    tmp <- as.matrix(cbind(tmp, D))  
-    rownames(tmp) <- names
-    return(tmp)
-#   } else if (return == "data.frame") {
-#     tmp <- cbind(tmp, D)
-#     rownames(tmp) <- make.unique(names)
-#     return(tmp)
-#   }
+  #  if (return == "matrix") {
+  tmp <- as.matrix(cbind(tmp, D))  
+  rownames(tmp) <- names
+  if (any(is.na(tmp))) warning("Some acss not available. Either increase alphabet or use bdm().", call. = FALSE)
+  return(tmp)
+  #   } else if (return == "data.frame") {
+  #     tmp <- cbind(tmp, D)
+  #     rownames(tmp) <- make.unique(names)
+  #     return(tmp)
+  #   }
 }
 
 
@@ -88,9 +89,9 @@ likelihood_d <- function(string, alphabet = 9) {
   check_string(string)
   l <- nchar(string)
   lu <- unique(l)
-  rn <- nchar(rownames(acss_data))
+  rn <- nchar(rownames(acss.data::acss_data))
   subtables <- lapply(lu, function(x) {
-    tmp <- acss_data[rn == x, paste0("K.", alphabet), drop = FALSE]
+    tmp <- acss.data::acss_data[rn == x, paste0("K.", alphabet), drop = FALSE]
     tmp <- tmp[!is.na(tmp[,paste0("K.", alphabet)]),,drop = FALSE]
     tmp$count <- count_class(rownames(tmp), alphabet = alphabet)
     tmp$D <- 2^(-tmp[,paste0("K.", alphabet)])
